@@ -205,6 +205,8 @@
     },
     created(){
       localStorage.removeItem('teamsubmit');
+      localStorage.removeItem('submit');
+
     },
     methods: {
       // 预约
@@ -232,7 +234,7 @@
                 this.$router.push({path:'/orderSuccess',query:{isteam:1}})
               } else {
                 this.$message({
-                  message: res.msg,
+                  message: res.msg||'稍后再试',
                   type: 'error'
                 });
               }

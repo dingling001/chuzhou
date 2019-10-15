@@ -202,6 +202,7 @@
     },
     created() {
       localStorage.removeItem('submit');
+      localStorage.removeItem('teamsubmit');
       this._GetOrderDate()
     },
     methods: {
@@ -245,7 +246,7 @@
                 this.$router.push({path:'/orderSuccess',query:{isteam:0}})
               } else {
                 this.$message({
-                  message: res.msg,
+                  message: res.msg||'稍后再试',
                   type: 'error'
                 });
               }
