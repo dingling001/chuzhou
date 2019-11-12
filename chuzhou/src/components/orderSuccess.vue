@@ -1,7 +1,7 @@
 <template>
   <div class="yysucess">
     <div class="s_title"><span class="el-icon-check"></span>恭喜您预约成功！</div>
-    <div class="s_info">您预约了<span>{{submit.people_quantity}}</span>人进行博物馆参观，预约信息为：</div>
+    <div class="s_info">您预约了<span>{{parseInt(submit.people_quantity,10)+parseInt(submit.child_quantity,10)}}</span>人进行博物馆参观，预约信息为：</div>
     <div class="sbox">
       <div class="sitem"  v-if="submit.ordertype==2">
         <span class="label">团体名称：</span>
@@ -52,7 +52,6 @@
       }
     },
     created() {
-
       if (localStorage.getItem('submit')) {
         this.submit = JSON.parse(localStorage.getItem('submit'))
         console.log(this.submit)

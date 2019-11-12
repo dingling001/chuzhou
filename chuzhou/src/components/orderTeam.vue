@@ -3,9 +3,10 @@
     <div class="yytitle">预约须知</div>
     <div class="yyxuzhi">
       <p>1.为了给广大观众营造安全文明、安静适宜的参观环境，进一步提高观众参观质量，我馆实行团队预约参观制度。</p>
-      <p>2.请团队负责人至少提前一天通过博物馆馆方网站、微信公众号、导览APP 团体预约通道进行参观预约。</p>
-      <p>3.预约时须详细填写预约信息，并保证信息真实有效。预约成功后，团体负责人凭身份证在滁州博物馆自动取票机处取票入馆参观。</p>
-      <p> 4.非预约团队须与普通观众一起排队等候参观。</p>
+      <p>2.请团队负责人至少 <span>提前一天</span> 通过博物馆馆方网站、微信公众号、导览APP 团体预约通道进行参观预约。</p>
+      <p>3.预约时须详细填写预约信息，并保证信息真实有效。预约成功后，团体负责人需<span>下载《团体观众介绍信》</span>填写相关内容并盖公章，参观当天交至讲解接待中心。</p>
+      <p>4.非预约团队须与普通观众一起排队等候参观。</p>
+      <p>5.团队预约电话0550-3036228、0550-2178212（工作时间9:00-16:30）。</p>
     </div>
     <el-form ref="submitform" :rules="submitrules" :model="submit" label-width="140px" class="formbox">
       <el-form-item label="请选择预约日期：" prop="traveldate">
@@ -38,6 +39,9 @@
       <el-form-item label="团体人数：" prop="people_quantity">
         <el-input v-model.trim="submit.people_quantity" type="number" placeholder="请填写预约张数"></el-input>
         <span class="require_text">（必填）</span>
+      </el-form-item>
+      <el-form-item>
+        <a class="teamdown"  href="../assets/mmp.xlsx" download="团体观众介绍信.doc">团体观众介绍信.doc<span></span><img src="../assets/imgs/xiazai.png" alt=""></a>
       </el-form-item>
       <el-form-item class="btnbox">
         <el-button type="primary" class="btn" @click="appoint">预约</el-button>
@@ -191,26 +195,26 @@
           contactmobile: '',
           idcardno: '',
           child_quantity: 0,
-          groupname:''
+          groupname: ''
         },
         submitrules: {
-          traveldate: [{required: true, message: '请选择预约日期', trigger: 'blur'}],
+          traveldate: [{required: true, message: '预约日期不能为空', trigger: 'blur'}],
           people_quantity: [{required: true, validator: checkNum, trigger: 'blur'}],
-          contactname: [{required: true, message: '请输入负责人姓名', trigger: 'blur'}],
-          groupname: [{required: true, message: '请输入团队名称', trigger: 'blur'}],
+          contactname: [{required: true, message: '负责人姓名不能为空', trigger: 'blur'}],
+          groupname: [{required: true, message: '团队名称不能为空', trigger: 'blur'}],
           idcardno: [{required: true, validator: checkId, trigger: 'blur'}],
           contactmobile: [{required: true, validator: checkPhone, trigger: 'blur'}],
         }
       }
     },
-    created(){
+    created() {
       localStorage.removeItem('teamsubmit');
       localStorage.removeItem('submit');
-
     },
     methods: {
       // 预约
       appoint() {
+        localStorage.removeItem('submit');
         this.$refs['submitform'].validate((valid) => {
           if (valid) {
             this.$api.POrder(
@@ -230,11 +234,11 @@
                   type: 'success'
                 });
                 this.submit.order_qrcode = res.data.ResponseBody.order_qrcode;
-                localStorage.setItem('teamsubmit', JSON.stringify(this.submit));
-                this.$router.push({path:'/orderSuccess',query:{isteam:1}})
+                localStorage.setItem('submit', JSON.stringify(this.submit));
+                this.$router.push({path: '/orderSuccess', query: {isteam: 1}})
               } else {
                 this.$message({
-                  message: res.msg||'稍后再试',
+                  message: res.msg || '稍后再试',
                   type: 'error'
                 });
               }
@@ -268,10 +272,31 @@
       padding: 0 0 20px 0;
       border-bottom: dashed #9F9F9F 1px;
       text-align: justify;
+      p{
+        span{
+          color: #C82727;
+          font-weight: bold;
+        }
+      }
     }
 
     .formbox {
       margin: 29px 0;
+
+      .teamdown {
+        color: #C82727;
+        text-decoration:underline;
+        /*padding: 20px 0;*/
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        img{
+          height: 23px;
+          vertical-align: middle;
+          margin-left: 5px;
+        }
+      }
 
       /deep/ .el-input {
         width: 321px;
@@ -314,10 +339,12 @@
           color: #666666;
         }
       }
+
       .require_text {
         color: #E70000;
         font-size: 14px;
       }
+
       .btnbox {
         /deep/ .el-form-item__content {
           /*margin: 0;*/

@@ -19,6 +19,7 @@
         <el-table-column
           prop="ContactName"
           label="预约人"
+          width="100"
         >
         </el-table-column>
         <el-table-column
@@ -29,15 +30,21 @@
         </el-table-column>
         <el-table-column
           prop="TravelDate"
-          label="入馆日期">
+          label="入馆日期"
+          width="100"
+        >
         </el-table-column>
         <el-table-column
           prop="Quantity"
-          label="人数">
+          label="人数"
+          width="100"
+        >
         </el-table-column>
         <el-table-column
           label="取票二维码"
-          align="center">
+          align="center"
+          width="138"
+        >
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="showcode(scope.row.order_qrcode)">查看</el-button>
           </template>
@@ -92,7 +99,9 @@
         this.$alert('<img src=' + src + '> ', '', {
           dangerouslyUseHTMLString: true,
           showConfirmButton: false,
-          customClass: 'codebox'
+          customClass: 'codebox',
+          closeOnClickModal:true,
+          closeOnPressEscape:true
         });
       }
     }
@@ -156,9 +165,11 @@
           font-size: 40px;
         }
       }
-      .nodatatips{
+
+      .nodatatips {
         text-align: center;
       }
+
       .btn {
         width: 321px;
         height: 40px;

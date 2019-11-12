@@ -149,6 +149,8 @@
       }
     },
     created() {
+      localStorage.removeItem('teamsubmit');
+      localStorage.removeItem('submit');
     },
     methods: {
       checkOrder() {

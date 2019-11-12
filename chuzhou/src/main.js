@@ -6,7 +6,7 @@ import router from './router'
 import '@/style/animate.css';
 import "@/style/reset.scss";
 import api from "./http";
-
+import 'babel-polyfill'
 Vue.config.productionTip = false;
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';

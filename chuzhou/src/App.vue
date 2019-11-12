@@ -22,6 +22,10 @@
     name: 'App',
     components: {
       LeftSlide
+    },
+    created() {
+      localStorage.removeItem('teamsubmit');
+      localStorage.removeItem('submit');
     }
   }
 </script>

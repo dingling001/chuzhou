@@ -225,6 +225,7 @@
       },
       // 预约
       appoint() {
+        localStorage.removeItem('submit');
         this.$refs['submitform'].validate((valid) => {
           if (valid) {
             this.$api.POrder(
@@ -279,6 +280,11 @@
       padding: 0 0 20px 0;
       border-bottom: dashed #9F9F9F 1px;
       text-align: justify;
+      p{
+        span{
+          color: #C82727;
+        }
+      }
     }
 
     .formbox {
