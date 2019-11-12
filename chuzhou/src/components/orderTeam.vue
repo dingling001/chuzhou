@@ -287,7 +287,7 @@
         color: #C82727;
         text-decoration:underline;
         /*padding: 20px 0;*/
-        font-size: 18px;
+        font-size: 16px;
         cursor: pointer;
         display: flex;
         align-items: center;
