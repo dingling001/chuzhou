@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   export default {
     name: "orderTeam",
     data() {
@@ -181,12 +182,29 @@
           // }, 100);
         }
       };
+      var _=this;
       return {
         value1: '',
         pickerOptions: {
           disabledDate(time) {
-            return time.getTime() < Date.now();
-          }
+            console.log()
+            var flag = false;
+            if (time.getTime() < Date.now() - 8.64e7 || time.getTime() > new Date(_.datelist[_.datelist.length - 1].date).getTime()) {
+              return true
+            } else {
+              // console.log(time.getTime() ,'time')
+              for (var j in _.datelist) {
+                // console.log(_.datelist[j].is_open, 'date'+j);
+                // console.log(moment(time).format('YYYY-MM-DD'), 'date'+j);
+                // && time.getTime() == new Date(_.datelist[j].date).getTime()
+                if (_.datelist[j].is_open == 0 && moment(time).format('YYYY-MM-DD') == _.datelist[j].date) {
+                  flag = true;
+                  return flag
+                }
+              }
+              return flag
+            }
+          },
         },
         submit: {
           ordertype: 2,
@@ -211,8 +229,22 @@
     created() {
       localStorage.removeItem('teamsubmit');
       localStorage.removeItem('submit');
+      this._GetOrderDate()
     },
     methods: {
+      // 获取门票日期
+      _GetOrderDate() {
+        this.$api.GetOrderDate(2).then(res => {
+          console.log(res)
+          if (res.status == 1) {
+            this.datelist = res.data;
+            // for (var i in this.datelist) {
+            //   this.datelist[i].date = this.fmtTime(this.datelist[i].date)
+            // }
+          }
+          this.date = moment(new Date()).format('yyyy-MM-dd')
+        })
+      },
       // 预约
       appoint() {
         localStorage.removeItem('submit');
