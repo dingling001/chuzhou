@@ -1,15 +1,15 @@
 <template>
   <div class="checkbox">
-    <div class="yytitle">个人预约查询</div>
+    <div class="yytitle">团体预约查询</div>
     <el-form ref="submitform" :rules="submitrules" :model="submit" label-width="140px" class="formbox">
       <el-form-item label="请选择预约日期：" prop="traveldate">
         <el-date-picker
           v-model="submit.traveldate"
           type="date"
           value-format="yyyy-MM-dd"
+          :picker-options="pickerOptions"
           placeholder="请选择预约日期"
         >
-<!--          :picker-options="pickerOptions"-->
         </el-date-picker>
         <span class="require_text">（必填）</span>
       </el-form-item>
@@ -137,11 +137,11 @@
           traveldate: '',
           idcardno: ''
         },
-        // pickerOptions: {
-        //   disabledDate(time) {
-        //     return time.getTime() < Date.now();
-        //   }
-        // },
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() < Date.now();
+          }
+        },
         submitrules: {
           traveldate: [{required: true, message: '请选择预约日期', trigger: 'blur'}],
           idcardno: [{required: true, validator: checkId, trigger: 'blur'}]
@@ -160,7 +160,7 @@
               if (res.status == 1) {
                 this.$router.push({
                   path: '/orderList',
-                  query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno,isteam:2}
+                  query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno,isteam:3}
                 })
               } else {
                 this.$message({

@@ -2,7 +2,9 @@
   <div class="checkbox">
     <div class="yytitle">预约查询</div>
     <div v-if="tableData.length&&isflag">
-      <div class="s_title"><span class="el-icon-check"></span>恭喜您预约成功！</div>
+      <!--      <span class="el-icon-check"></span>-->
+      <div class="s_title" v-if="isteam==2">个人预约查询</div>
+      <div class="s_title" v-else-if="isteam==3">团体预约查询</div>
       <el-table
         :data="tableData"
         :header-cell-style="{background:'#E3D7AF',color:'#000'}"
@@ -35,21 +37,29 @@
         >
         </el-table-column>
         <el-table-column
-          prop="Quantity"
-          label="人数"
+          label="状态"
           width="100"
         >
+          <template slot-scope="scope">
+            <div v-if="scope.status"></div>
+            <div v-else class="success">预约成功</div>
+          </template>
         </el-table-column>
         <el-table-column
-          label="取票二维码"
+          label="操作"
           align="center"
           width="138"
         >
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="showcode(scope.row.order_qrcode)">查看</el-button>
+            <el-button type="text" size="small" @click="showcode(scope.$index)">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <div class="teamtips" v-if="isteam==3">团体负责人需下载<a class="teamdown" href="../assets/mmp.xlsx"
+                                                        download="团体观众介绍信.doc">团体观众介绍信<span></span></a>填写相关内容并盖公章，参观当天交至讲解接待中心。
+      </div>
+      <div class="teamtips" v-else>请凭身份证或取票二维码到滁州博物馆自动取票机处取票入馆参观，预约信息可在预约查询中查找。</div>
+
     </div>
     <div v-if="tableData.length==0&&isflag" class="nodatabox">
       <div class='nodatatitle'><span class="el-icon-warning-outline"></span><span>未查询到您的预约信息</span></div>
@@ -74,12 +84,15 @@
           idcardno: '',
         },
         isflag: false,
-        tableData: []
+        tableData: [],
+        isteam: 2,
+
       }
     },
     created() {
-      this.submit.traveldate = this.$route.query.traveldate
-      this.submit.idcardno = this.$route.query.idcardno
+      this.submit.traveldate = this.$route.query.traveldate;
+      this.submit.idcardno = this.$route.query.idcardno;
+      this.isteam = this.$route.query.isteam;
       if (this.submit.traveldate && this.submit.idcardno) {
         this.checkOrder()
       } else {
@@ -95,14 +108,19 @@
           }
         })
       },
-      showcode(src) {
-        this.$alert('<img src=' + src + '> ', '', {
-          dangerouslyUseHTMLString: true,
-          showConfirmButton: false,
-          customClass: 'codebox',
-          closeOnClickModal:true,
-          closeOnPressEscape:true
-        });
+      showcode(index) {
+        console.log(index)
+        // this.$alert('<img src=' + src + '> ', '', {
+        //   dangerouslyUseHTMLString: true,
+        //   showConfirmButton: false,
+        //   customClass: 'codebox',
+        //   closeOnClickModal:true,
+        //   closeOnPressEscape:true
+        // });
+        this.$router.push({
+          path: '/orderSuccess',
+          query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno, isteam: 2, i: index}
+        })
       }
     }
   }
@@ -119,7 +137,7 @@
     }
 
     .s_title {
-      color: #F82633;
+      /*color: #F82633;*/
       font-size: 25px;
       text-align: center;
       padding: 17px 0;
@@ -133,7 +151,27 @@
 
     }
 
+    .teamtips {
+      font-size: 18px;
+      color: #222222;
+      padding: 53px 130px 53px 0;
+      line-height: 30px;
+
+      .teamdown {
+        color: #C82727;
+        text-decoration: underline;
+        /*padding: 20px 0;*/
+        cursor: pointer;
+        font-weight: bold;
+      }
+    }
+
     /deep/ .el-table {
+      .success {
+        color: #4DA231;
+        font-weight: bold;
+      }
+
       .el-table__header-wrapper {
         font-size: 16px;
       }

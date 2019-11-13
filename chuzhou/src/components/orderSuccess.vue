@@ -1,9 +1,10 @@
 <template>
   <div class="yysucess">
     <div class="s_title"><span class="el-icon-check"></span>恭喜您预约成功！</div>
-    <div class="s_info">您预约了<span>{{parseInt(submit.people_quantity,10)+parseInt(submit.child_quantity,10)}}</span>人进行博物馆参观，预约信息为：</div>
-    <div class="sbox">
-      <div class="sitem"  v-if="submit.ordertype==2">
+    <div class="s_info">您预约了<span>{{parseInt(submit.people_quantity,10)+parseInt(submit.child_quantity,10)}}</span>人进行博物馆参观，预约信息为：
+    </div>
+    <div class="sbox" v-if="Object.keys(submit).length">
+      <div class="sitem" v-if="submit.ordertype==2">
         <span class="label">团体名称：</span>
         <span class="labelvalue">{{submit.groupname}}</span>
       </div>
@@ -46,19 +47,61 @@
           contactmobile: '',
           idcardno: '',
           child_quantity: 0,
-          groupname:''
-        }
-
+          groupname: ''
+        },
+        submitpost: {
+          traveldate: '',
+          idcardno: '',
+        },
+        isteam: '',
+        index: 0,
+        tableData: []
       }
     },
     created() {
-      if (localStorage.getItem('submit')) {
-        this.submit = JSON.parse(localStorage.getItem('submit'))
-        console.log(this.submit)
-      } else if(localStorage.getItem('teamsubmit')){
-        this.submit = JSON.parse(localStorage.getItem('teamsubmit'))
-        console.log(this.submit)
+      this.submitpost.traveldate = this.$route.query.traveldate;
+      this.submitpost.idcardno = this.$route.query.idcardno;
+      this.index = this.$route.query.i;
+      this.isteam = this.$route.query.isteam;
+      if (this.$route.query.traveldate && this.$route.query.idcardno && this.$route.query.isteam) {
+        this.checkOrder();
+      } else {
+        if (localStorage.getItem('submit')) {
+          this.submit = JSON.parse(localStorage.getItem('submit'))
+          // console.log(this.submit)
+        } else if (localStorage.getItem('teamsubmit')) {
+          this.submit = JSON.parse(localStorage.getItem('teamsubmit'))
+          // console.log(this.submit)
+        }
       }
+    },
+    methods: {
+      checkOrder() {
+        this.$api.SearchOrder(this.submitpost.traveldate, this.submitpost.idcardno).then(res => {
+          if (res.status == 1) {
+            this.tableData = res.data;
+            console.log(res.data)
+            // this.tableData[this.index];
+            // ordertype: 1,
+            //   traveldate: '',
+            //   people_quantity: '',
+            //   contactname: '',
+            //   contactmobile: '',
+            //   idcardno: '',
+            //   child_quantity: 0,
+            //   groupname: ''
+            this.submit.ordertype = this.isteam==2?1:2;
+            this.submit.traveldate=  this.tableData[this.index].TravelDate;
+            this.submit.people_quantity=  this.tableData[this.index].Quantity;
+            this.submit.contactname=  this.tableData[this.index].ContactName;
+            this.submit.idcardno=  this.tableData[this.index].IdCardNo;
+            this.submit.contactmobile=  this.tableData[this.index].ContactMobile;
+            this.submit.order_qrcode=  this.tableData[this.index].order_qrcode;
+            this.submit.groupname=  this.tableData[this.index].GroupName;
+            console.log(this.submit)
+          }
+        })
+      },
     }
   }
 </script>
@@ -97,6 +140,7 @@
 
       .sitem {
         margin-bottom: 20px;
+
         .label {
           font-size: 18px;
           color: #222;
@@ -104,22 +148,26 @@
           width: 200px;
           text-align: right;
         }
+
         .labelvalue {
           font-size: 18px;
           color: #F66514;
           display: inline-block;
         }
-        &.code{
-          .label{
+
+        &.code {
+          .label {
             height: 114px;
             line-height: 114px;
           }
-          .labelvalue{
+
+          .labelvalue {
             width: 114px;
             height: 114px;
             line-height: 114px;
             text-align: center;
-            img{
+
+            img {
               width: 100%;
               vertical-align: middle;
             }
@@ -128,13 +176,14 @@
       }
 
     }
-    .tips{
-      margin:  0 auto;
-      width:427px;
-      height:100px;
-      background:rgba(255,249,239,1);
-      border:1px dashed rgba(177,144,92,1);
-      border-radius:4px;
+
+    .tips {
+      margin: 0 auto;
+      width: 427px;
+      height: 100px;
+      background: rgba(255, 249, 239, 1);
+      border: 1px dashed rgba(177, 144, 92, 1);
+      border-radius: 4px;
       font-size: 18px;
       color: #222;
       padding: 21px 10px;

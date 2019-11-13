@@ -40,6 +40,14 @@ export default new Router({
       }
     },
     {
+      path: '/orderQueryTeam',
+      name: 'orderQueryTeam',
+      component: resolve => require(['@/components/orderQueryTeam'], resolve),
+      meta: {
+        cur: 3
+      }
+    },
+    {
       path: '/orderSuccess',
       name: 'orderSuccess',
       component: resolve => require(['@/components/orderSuccess'], resolve),

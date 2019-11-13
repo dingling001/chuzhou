@@ -5,7 +5,8 @@
       <ul>
         <li :class="{activeli:ind==0}" @click="tab(0,'/orderIndex')">个人预约</li>
         <li :class="{activeli:ind==1}" @click="tab(1,'/orderTeam')">团体预约</li>
-        <li :class="{activeli:ind==2}" @click="tab(2,'/orderQuery')">预约查询</li>
+        <li :class="{activeli:ind==2}" @click="tab(2,'/orderQuery')">个人预约查询</li>
+        <li :class="{activeli:ind==3}" @click="tab(3,'/orderQueryTeam')">团体预约查询</li>
       </ul>
     </div>
   </div>

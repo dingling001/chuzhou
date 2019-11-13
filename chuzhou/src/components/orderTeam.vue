@@ -37,7 +37,7 @@
         <span class="require_text">（必填）</span>
       </el-form-item>
       <el-form-item label="团体人数：" prop="people_quantity">
-        <el-input v-model.trim="submit.people_quantity" type="number" placeholder="请填写预约张数"></el-input>
+        <el-input v-model.number="submit.people_quantity" type="text" maxlength="4" placeholder="请填写预约张数"></el-input>
         <span class="require_text">（必填）</span>
       </el-form-item>
       <el-form-item>
@@ -169,15 +169,16 @@
         if (!value) {
           return callback(new Error('预约数量不能为空'));
         } else {
-          callback();
-
-          setTimeout(() => {
-            if (value <= 0) {
-              callback(new Error('至少预约1张'));
-            } else {
+          // setTimeout(() => {
+            if (value < 5) {
+              callback(new Error('至少预约3张'));
+            }else if(value>300){
+              callback(new Error('最多可预约300张'));
+            }
+            else {
               callback();
             }
-          }, 100);
+          // }, 100);
         }
       };
       return {
@@ -199,7 +200,7 @@
         },
         submitrules: {
           traveldate: [{required: true, message: '预约日期不能为空', trigger: 'blur'}],
-          people_quantity: [{required: true, validator: checkNum, trigger: 'blur'}],
+          people_quantity: [{required: true, validator: checkNum, type:'number',trigger: 'blur'}],
           contactname: [{required: true, message: '负责人姓名不能为空', trigger: 'blur'}],
           groupname: [{required: true, message: '团队名称不能为空', trigger: 'blur'}],
           idcardno: [{required: true, validator: checkId, trigger: 'blur'}],
@@ -235,7 +236,7 @@
                 });
                 this.submit.order_qrcode = res.data.ResponseBody.order_qrcode;
                 localStorage.setItem('submit', JSON.stringify(this.submit));
-                this.$router.push({path: '/orderSuccess', query: {isteam: 1}})
+                this.$router.push({path: '/orderSuccess', query: {isteam: 3}})
               } else {
                 this.$message({
                   message: res.msg || '稍后再试',
@@ -292,7 +293,7 @@
         display: flex;
         align-items: center;
         img{
-          height: 23px;
+          height: 22px;
           vertical-align: middle;
           margin-left: 5px;
         }
