@@ -41,7 +41,7 @@
         <span class="require_text">（必填）</span>
       </el-form-item>
       <el-form-item>
-        <a class="teamdown"  href="../assets/mmp.xlsx" download="团体观众介绍信.doc">团体观众介绍信.doc<span></span><img src="../assets/imgs/xiazai.png" alt=""></a>
+        <a class="teamdown" href="../../static/team.doc" download="团体观众介绍信.doc">团体观众介绍信.doc<span></span><img src="../assets/imgs/xiazai.png" alt=""></a>
       </el-form-item>
       <el-form-item class="btnbox">
         <el-button type="primary" class="btn" @click="appoint">预约</el-button>
@@ -172,7 +172,7 @@
         } else {
           // setTimeout(() => {
             if (value < 5) {
-              callback(new Error('至少预约3张'));
+              callback(new Error('至少预约5张'));
             }else if(value>300){
               callback(new Error('最多可预约300张'));
             }
@@ -263,12 +263,11 @@
               console.log(res)
               if (res.status == 1) {
                 this.$message({
-                  message: '预约成功',
+                  message: res.msg,
                   type: 'success'
                 });
-                this.submit.order_qrcode = res.data.ResponseBody.order_qrcode;
-                localStorage.setItem('submit', JSON.stringify(this.submit));
-                this.$router.push({path: '/orderSuccess', query: {isteam: 3}})
+                // this.submit.order_qrcode = res.data.ResponseBody.order_qrcode;
+                this.$router.push({path: '/orderSuccessTeam'})
               } else {
                 this.$message({
                   message: res.msg || '稍后再试',

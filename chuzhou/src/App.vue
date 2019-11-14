@@ -71,7 +71,7 @@
       }
 
       .nyrightnrbox {
-        padding: 0 30px 0 40px;
+        padding: 0 30px;
         min-height: 604px;
         background-image: url(./assets/imgs/ny_right_foot.jpg);
         background-position: bottom;

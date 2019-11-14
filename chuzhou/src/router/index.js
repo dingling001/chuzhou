@@ -51,6 +51,17 @@ export default new Router({
       path: '/orderSuccess',
       name: 'orderSuccess',
       component: resolve => require(['@/components/orderSuccess'], resolve),
+      meta: {
+        cur: 2
+      }
+    },
+    {
+      path: '/orderSuccessTeam',
+      name: 'orderSuccessTeam',
+      component: resolve => require(['@/components/orderSuccessTeam'], resolve),
+      meta: {
+        cur: 3
+      }
     },
     {
       path: '/orderList',

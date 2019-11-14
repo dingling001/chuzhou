@@ -7,9 +7,9 @@
           v-model="submit.traveldate"
           type="date"
           value-format="yyyy-MM-dd"
-          :picker-options="pickerOptions"
           placeholder="请选择预约日期"
         >
+          <!--          :picker-options="pickerOptions"-->
         </el-date-picker>
         <span class="require_text">（必填）</span>
       </el-form-item>
@@ -137,11 +137,11 @@
           traveldate: '',
           idcardno: ''
         },
-        pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() < Date.now();
-          }
-        },
+        // pickerOptions: {
+        //   disabledDate(time) {
+        //     return time.getTime() < Date.now();
+        //   }
+        // },
         submitrules: {
           traveldate: [{required: true, message: '请选择预约日期', trigger: 'blur'}],
           idcardno: [{required: true, validator: checkId, trigger: 'blur'}]
@@ -156,19 +156,23 @@
       checkOrder() {
         this.$refs['submitform'].validate((valid) => {
           if (valid) {
-            this.$api.SearchOrder(this.submit.traveldate, this.submit.idcardno).then(res => {
-              if (res.status == 1) {
-                this.$router.push({
-                  path: '/orderList',
-                  query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno,isteam:3}
-                })
-              } else {
-                this.$message({
-                  message: res.msg||'稍后再试',
-                  type: 'error'
-                });
-              }
+            this.$router.push({
+              path: '/orderList',
+              query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno, isteam: 3}
             })
+            // this.$api.SearchOrderTeam(this.submit.traveldate, this.submit.idcardno).then(res => {
+            //   if (res.status == 1) {
+            //     this.$router.push({
+            //       path: '/orderList',
+            //       query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno,isteam:3}
+            //     })
+            //   } else {
+            //     this.$message({
+            //       message: res.msg||'稍后再试',
+            //       type: 'error'
+            //     });
+            //   }
+            // })
           } else {
             this.$message({
               message: '请检查查询信息',

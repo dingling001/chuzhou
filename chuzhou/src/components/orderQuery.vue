@@ -156,19 +156,20 @@
       checkOrder() {
         this.$refs['submitform'].validate((valid) => {
           if (valid) {
-            this.$api.SearchOrder(this.submit.traveldate, this.submit.idcardno).then(res => {
-              if (res.status == 1) {
-                this.$router.push({
-                  path: '/orderList',
-                  query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno,isteam:2}
-                })
-              } else {
-                this.$message({
-                  message: res.msg||'稍后再试',
-                  type: 'error'
-                });
-              }
+            this.$router.push({
+              path: '/orderList',
+              query: {traveldate: this.submit.traveldate, idcardno: this.submit.idcardno,isteam:2}
             })
+            // this.$api.SearchOrder(this.submit.traveldate, this.submit.idcardno).then(res => {
+            //   if (res.status == 1) {
+            //
+            //   } else {
+            //     this.$message({
+            //       message: res.msg||'稍后再试',
+            //       type: 'error'
+            //     });
+            //   }
+            // })
           } else {
             this.$message({
               message: '请检查查询信息',

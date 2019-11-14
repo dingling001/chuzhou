@@ -35,6 +35,16 @@ export const SearchOrder = (traveldate, idcardno) =>
     "GET",
     true
   );
+// 团队查询
+export const SearchOrderTeam = (traveldate, idcardno) =>
+  axios(
+    STATIC_PW_URL + "index.php?g=mapi&m=order&a=search_team_order", {
+      traveldate,
+      idcardno
+    },
+    "GET",
+    true
+  );
 // 获取门票信息
 export const GetOrderDate = (ordertype) =>
   axios(
