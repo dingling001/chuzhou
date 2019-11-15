@@ -74,7 +74,7 @@
           label="团队名称"
           width="100"
         >
-        </el-table-column>
+        </el-table-column>==]
         <el-table-column
           prop="contactname"
           label="负责人"
