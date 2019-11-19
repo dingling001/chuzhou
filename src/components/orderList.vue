@@ -113,7 +113,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="teamtips" v-if="isteam==3">团体负责人需下载<a class="teamdown" href="/pc_dist/team.doc"
+      <div class="teamtips" v-if="isteam==3">团体负责人需下载<a class="teamdown" href="/static/团体观众介绍信.doc"
                                                         download="团体观众介绍信.doc">团体观众介绍信<span></span></a>填写相关内容并盖公章，参观当天交至讲解接待中心。
       </div>
       <div class="teamtips" v-else>请凭身份证或取票二维码到滁州博物馆自动取票机处取票入馆参观，预约信息可在预约查询中查找。</div>
