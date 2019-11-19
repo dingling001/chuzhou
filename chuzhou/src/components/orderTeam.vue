@@ -41,7 +41,7 @@
         <span class="require_text">（必填）</span>
       </el-form-item>
       <el-form-item>
-        <a class="teamdown" href="../../static/team.doc" download="团体观众介绍信.doc">团体观众介绍信.doc<span></span><img src="../assets/imgs/xiazai.png" alt=""></a>
+        <a class="teamdown" href="/pc_dist/team.doc" download="团体观众介绍信.doc">团体观众介绍信.doc<span></span><img src="../assets/imgs/xiazai.png" alt=""></a>
       </el-form-item>
       <el-form-item class="btnbox">
         <el-button type="primary" class="btn" @click="appoint">预约</el-button>

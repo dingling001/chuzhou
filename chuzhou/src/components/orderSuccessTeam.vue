@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="yysucess" v-if="liststatus&&flg">
-      <div class="s_title"><span class="el-icon-check"></span>恭喜您预约成功！</div>
+    <div class="yysucess" v-if="flg&&liststatus>0">
+            <div class="s_title" v-if="liststatus==1"><span class="el-icon-check"></span>恭喜您预约成功！</div>
+      <div class="s_title" v-if="liststatus==2"><span class="el-icon-warning-outline"></span>预约失败！</div>
       <div class="s_info">您预约了<span>{{parseInt(submit.people_quantity,10)+parseInt(submit.child_quantity,10)}}</span>人进行博物馆参观，预约信息为：
       </div>
       <div class="sbox" v-if="Object.keys(submit).length">
@@ -33,7 +34,7 @@
       </div>
       <div class="tips">请凭身份证或取票二维码到滁州博物馆自动取票机处取票入馆参观，预约信息可在预约查询中查找。</div>
     </div>
-    <div class="yysucess" v-if="flg&&!liststatus">
+    <div class="yysucess" v-if="flg&&liststatus==0">
       <div class="s_title"><span class="el-icon-check"></span>您已提交审核！</div>
       <div class="s_info">我馆将在24小时内审核，请在24小时后进行查询</div>
       <div class="tips">
@@ -69,8 +70,8 @@
         isteam: '',
         index: 0,
         tableData: [],
-        flg:false,
-        liststatus: false
+        flg: false,
+        liststatus: 1
       }
     },
     created() {
@@ -93,10 +94,10 @@
     methods: {
       checkOrder() {
         this.$api.SearchOrderTeam(this.submitpost.traveldate, this.submitpost.idcardno).then(res => {
-          this.flg=true;
+          this.flg = true;
           if (res.status == 1) {
             this.tableData = res.data[this.index].yg_data;
-            this.liststatus = res.data[this.index].status == 1;
+            this.liststatus = res.data[this.index].status;
             console.log(this.liststatus)
             // this.tableData;
             // ordertype: 1,
@@ -115,6 +116,7 @@
             this.submit.contactmobile = this.tableData.ContactMobile;
             this.submit.order_qrcode = this.tableData.order_qrcode;
             this.submit.groupname = this.tableData.GroupName;
+
             console.log(this.submit)
           }
         })
@@ -131,12 +133,21 @@
       text-align: center;
       padding: 17px 0;
       border-bottom: 1px solid #C3C3C3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       .el-icon-check {
         font-weight: bold;
         font-size: 40px;
         margin-right: 10px;
         color: #4DA231;
+      }
+
+      .el-icon-warning-outline {
+        font-size: 38px;
+        margin-right: 10px;
+        color: #F82633;
       }
     }
 
