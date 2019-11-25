@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="yysucess" v-if="flg&&liststatus>0">
-            <div class="s_title" v-if="liststatus==1"><span class="el-icon-check"></span>恭喜您预约成功！</div>
+      <div class="s_title" v-if="liststatus==1"><span class="el-icon-check"></span>恭喜您预约成功！</div>
       <div class="s_title" v-if="liststatus==2"><span class="el-icon-warning-outline"></span>预约失败！</div>
       <div class="s_info">您预约了<span>{{parseInt(submit.people_quantity,10)+parseInt(submit.child_quantity,10)}}</span>人进行博物馆参观，预约信息为：
       </div>
@@ -27,7 +27,7 @@
           <span class="label">入馆日期：</span>
           <span class="labelvalue">{{submit.traveldate}}</span>
         </div>
-        <div class="sitem code">
+        <div class="sitem code" v-if="liststatus==1">
           <span class="label">取票二维码：</span>
           <span class="labelvalue"><img :src="submit.order_qrcode" alt=""></span>
         </div>
@@ -70,6 +70,7 @@
         isteam: '',
         index: 0,
         tableData: [],
+        faildata: [],
         flg: false,
         liststatus: 1
       }
@@ -96,6 +97,7 @@
         this.$api.SearchOrderTeam(this.submitpost.traveldate, this.submitpost.idcardno).then(res => {
           this.flg = true;
           if (res.status == 1) {
+            this.faildata = res.data[this.index];
             this.tableData = res.data[this.index].yg_data;
             this.liststatus = res.data[this.index].status;
             console.log(this.liststatus)
@@ -108,16 +110,26 @@
             //   idcardno: '',
             //   child_quantity: 0,
             //   groupname: ''
-            this.submit.ordertype = this.isteam == 2 ? 1 : 2;
-            this.submit.traveldate = this.tableData.TravelDate;
-            this.submit.people_quantity = this.tableData.Quantity;
-            this.submit.contactname = this.tableData.ContactName;
-            this.submit.idcardno = this.tableData.IdCardNo;
-            this.submit.contactmobile = this.tableData.ContactMobile;
-            this.submit.order_qrcode = this.tableData.order_qrcode;
-            this.submit.groupname = this.tableData.GroupName;
-
-            console.log(this.submit)
+            if (this.liststatus == 1) {
+              this.submit.ordertype = this.isteam == 2 ? 1 : 2;
+              this.submit.traveldate = this.tableData.TravelDate;
+              this.submit.people_quantity = this.tableData.Quantity;
+              this.submit.contactname = this.tableData.ContactName;
+              this.submit.idcardno = this.tableData.IdCardNo;
+              this.submit.contactmobile = this.tableData.ContactMobile;
+              this.submit.order_qrcode = this.tableData.order_qrcode;
+              this.submit.groupname = this.tableData.GroupName;
+            } else {
+              this.submit.ordertype = this.isteam == 2 ? 1 : 2;
+              this.submit.traveldate = this.faildata.traveldate;
+              this.submit.people_quantity = this.faildata.people_quantity;
+              this.submit.contactname = this.faildata.contactname;
+              this.submit.idcardno = this.faildata.idcardno;
+              this.submit.contactmobile = this.faildata.contactmobile;
+              this.submit.order_qrcode = this.faildata.order_qrcode;
+              this.submit.groupname = this.faildata.groupname;
+            }
+            // console.log(this.submit)
           }
         })
       },
