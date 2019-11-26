@@ -184,7 +184,8 @@
           disabledDate(time) {
             console.log()
             var flag = false;
-            if (time.getTime() < Date.now() - 8.64e7 || time.getTime() > new Date(_.datelist[_.datelist.length - 1].date).getTime()) {
+            if (time.getTime() < Date.now()  || time.getTime() > new Date(_.datelist[_.datelist.length - 1].date).getTime()) {
+              // - 8.64e7
               return true
             } else {
               // console.log(time.getTime() ,'time')

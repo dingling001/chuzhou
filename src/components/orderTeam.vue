@@ -41,7 +41,8 @@
         <span class="require_text">（必填）</span>
       </el-form-item>
       <el-form-item>
-        <a class="teamdown" href="static/团体观众介绍信.doc" download="团体观众介绍信.doc">团体观众介绍信.doc<span></span><img src="../assets/imgs/xiazai.png" alt=""></a>
+        <a class="teamdown" href="static/团体观众介绍信.doc" download="团体观众介绍信.doc">团体观众介绍信.doc<span></span><img
+          src="../assets/imgs/xiazai.png" alt=""></a>
       </el-form-item>
       <el-form-item class="btnbox">
         <el-button type="primary" class="btn" @click="appoint">预约</el-button>
@@ -52,6 +53,7 @@
 
 <script>
   import moment from 'moment'
+
   export default {
     name: "orderTeam",
     data() {
@@ -171,28 +173,28 @@
           return callback(new Error('预约数量不能为空'));
         } else {
           // setTimeout(() => {
-            if (value < 5) {
-              callback(new Error('至少预约5张'));
-            }else if(value>300){
-              callback(new Error('最多可预约300张'));
-            }
-            else {
-              callback();
-            }
+          if (value < 5) {
+            callback(new Error('至少预约5张'));
+          } else if (value > 300) {
+            callback(new Error('最多可预约300张'));
+          } else {
+            callback();
+          }
           // }, 100);
         }
       };
-      var _=this;
+      var _ = this;
       return {
         value1: '',
         pickerOptions: {
           disabledDate(time) {
             console.log()
             var flag = false;
-            if (time.getTime() < Date.now() - 8.64e7 || time.getTime() > new Date(_.datelist[_.datelist.length - 1].date).getTime()) {
+            if (time.getTime() < Date.now()  || time.getTime() > new Date(_.datelist[_.datelist.length - 1].date).getTime()) {
+              // - 8.64e7
               return true
             } else {
-              // console.log(time.getTime() ,'time')
+              flag= false;
               for (var j in _.datelist) {
                 // console.log(_.datelist[j].is_open, 'date'+j);
                 // console.log(moment(time).format('YYYY-MM-DD'), 'date'+j);
@@ -218,7 +220,7 @@
         },
         submitrules: {
           traveldate: [{required: true, message: '预约日期不能为空', trigger: 'blur'}],
-          people_quantity: [{required: true, validator: checkNum, type:'number',trigger: 'blur'}],
+          people_quantity: [{required: true, validator: checkNum, type: 'number', trigger: 'blur'}],
           contactname: [{required: true, message: '负责人姓名不能为空', trigger: 'blur'}],
           groupname: [{required: true, message: '团队名称不能为空', trigger: 'blur'}],
           idcardno: [{required: true, validator: checkId, trigger: 'blur'}],
@@ -304,8 +306,9 @@
       padding: 0 0 20px 0;
       border-bottom: dashed #9F9F9F 1px;
       text-align: justify;
-      p{
-        span{
+
+      p {
+        span {
           color: #C82727;
           font-weight: bold;
         }
@@ -317,13 +320,14 @@
 
       .teamdown {
         color: #C82727;
-        text-decoration:underline;
+        text-decoration: underline;
         /*padding: 20px 0;*/
         font-size: 16px;
         cursor: pointer;
         display: flex;
         align-items: center;
-        img{
+
+        img {
           height: 22px;
           vertical-align: middle;
           margin-left: 5px;
